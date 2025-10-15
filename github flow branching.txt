@@ -1,0 +1,21 @@
+GitHub Flow - A simple branching process of opening new feature branches, implementing small changes + features
+and merging with main if branch is working. Then delete merged branch as it is no longer needed and open a new one.
+
+VS Code:
+git branch
+git checkout -b 'feature-branch'
+git add .
+git commit -m 'message'
+git push origin 'feature-branch'
+
+GitHub:
+Go to repo pull requests tab, create new pr, select base:main compare:feature and open PR
+review/resolve conflicts
+merge PR
+delete merged branch (to prepare for a new fresh branch)
+
+VS Code:
+git checkout main
+git pull origin main
+git branch -d 'feature-branch' (delete branch after merging)
+git push origin --delete 'feature-branch' (if you haven't deleted on GitHub)

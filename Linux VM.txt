@@ -1,0 +1,46 @@
+Linux VM Setup
+To find and connect to remote Linux VM run:
+ssh root@<vm-ip> (ubuntu)
+password
+whoami - will say who you are depending on context/environment for testing (should be root or user in Linux vm)
+_________________________________________________________________________________________________
+
+LINUX Notes
+
+Linux has 2 roots, 1. Linux root of all system files and 2. Super user roots personal folder.
+Linux root should be left alone, whereas user root folder is usable (accessible with command: cd ~)
+
+CLI notes:
+ls, cd, pwd, ctrl+c, etc.      - standard cli commands
+man ls                         - man shows command description (ls example)
+apropos 'search files'         - find a command that does '...'
+mkdir/rmdir 'folder'           - create/remove directories
+cp/mv file.txt ../secondFolder - copy/move file to another directory
+rm                             - remove file
+
+cat, head, tail                - view text
+awk, sed, sort                 - manipulate text
+
+Vim and Nano text editor examples:
+vi -> i -> type 'Hello' -> escape -> :w new.txt -> escape -> :wq(save) :q!(quit without save)
+nano -> type and follow ui controls (Nano is more user friendly)
+
+tar/zip  - archive multiple files
+
+pipe (|) - used to connect the output of one command to the input of another command
+stdin/stdout/stderr - output redirection
+
+Users and Permissions:
+user - normal users
+root - super user (full system access)
+sudo - execute commands with super user privileges
+
+rwxrwxrwx - rwx(user)rwx(owner)rwx(group)
+read, write, execute
+chmod octal/symbolic notation to mod permissions
+_________________________________________________________________________________________________
+
+Package Management and APT
+sudo apt update - update package list 
+sudo apt install 'app' - install package/app
+sudo apt remove 'app'  - uninstall package/app

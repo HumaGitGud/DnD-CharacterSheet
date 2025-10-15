@@ -1,0 +1,118 @@
+Droplet VM (Ubuntu)
+ssh root@<vm-ip> (logging in to Linux OS VM, as root user/ admin)
+password
+sudo apt update
+sudo apt install -y git
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.bashrc
+nvm install --lts
+nvm use --lts
+nvm alias default lts/*
+
+node -v
+npm -v
+
+cd ~ (user roots folder, not Linux root)
+mkdir project
+git clone 
+npm install
+npm run dev
+
+go to VM droplet - http://ip:PORT/ (http://<vm-ip>:3001/)
+
+
+
+MySQL (in the vm)
+sudo apt update
+sudo apt install mysql-server
+sudo mysql_secure_installation
+set root user and password (MySQL has its own root user which is controlled by Linux root user)
+
+create db:
+sudo mysql (or sudo mysql -u root -p)
+-- Create the database for your application
+CREATE DATABASE dndDB;
+
+-- Create a user that can only connect from the droplet itself (most secure)
+CREATE USER 'name'@'localhost' IDENTIFIED BY 'password'; (remember, limited User NOT MySQL root)
+
+-- Grant all privileges on your new database to the new user
+GRANT ALL PRIVILEGES ON dndDB.* TO 'name'@'localhost';
+
+-- Apply the changes
+FLUSH PRIVILEGES;
+
+test db:
+SHOW DATABASES;
+USE dndDB;
+
+-- Exit MySQL
+EXIT;
+
+create table
+
+Enable remote access for MySQL workbench:
+ssh into vm, cd ~
+sudo mysql
+CREATE USER 'name_remote'@'your_home_ip' IDENTIFIED BY 'password'; (another user just for workbench)
+GRANT ALL PRIVILEGES ON dndDB.* TO 'name_remote'@'home_ip_address';
+FLUSH PRIVILEGES;
+EXIT;
+
+sudo ufw allow 3306 (open mysql default port in vm firewall)
+sudo ufw allow ssh
+sudo ufw enable
+sudo ufw status
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+change to bind-address = 0.0.0.0
+ctrl + x, y, enter
+sudo systemctl restart mysql
+
+open MySQL workbench, enter: 
+hostname: (vm ip address used for ssh)
+port: 3306
+username: name_remote
+password
+test connection (if successful, press ok, done)
+
+CHECK DND (WORKING OR PERSONAL BUILD) TO SEE THIS STUFF:
+Integrate Sequelize in backend, connect express to MySQL using sequelize, in local vscode express directory run:
+npm install mysql2 sequelize dotenv
+create:
+database/db.js           - Sequelize config
+models/schema.js         - Table
+controller/controller.js - CRUD
+server                   - orchestrate server start
+have .env variables at dir root (use name remote credentials)
+run local server and test with postman
+check MySQL workbench to see if data shows in db
+push updated server to github
+clone in vm to have updated server, nano .env and create env vars with (name_localhost creds (LOCAL not name_remote)):
+DB_NAME=dndDB
+DB_USER=name
+DB_PASSWORD=namePassword
+DB_HOST=localhost
+DB_DIALECT=MySQL
+DB_PORT=3306
+npm run dev in vm and check url (I ran sudo ufw allow 3001 to allow PORT 3001 from local server)
+install cors
+BACKEND + DATABASE + CONNECTION + VM DEPLOYMENT DONE
+
+PM2: 
+inside experiment server dir I ran:
+npm i pm2
+npx pm2 start server.js
+npx pm2 stop server
+npx pm2 restart server (reload with zero downtime)
+npx pm2 delete server (delete server from pm2 list)
+npx pm2 logs (debugging)
+
+Front end:
+in root dir where express-be is run:
+npm create vite@latest react-fe
+npm install @mui/material @emotion/react @emotion/styled
+npm install react-router-dom
+
+
+FE DEPLOYMENT: host fe folder along with be folder in vm project root
+PM2: config ecosystem config file to serve both fe/be
